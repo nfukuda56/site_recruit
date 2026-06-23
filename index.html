@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>採用説明会</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" crossorigin="anonymous">
+
+<style>
+  :root {
+    --blue:    #059669;   /* Accent：ミントグリーン */
+    --blue-lt: #D1FAE5;   /* Accent Lt：薄いミント */
+    --amber:   #34D399;   /* Accent 2：明るいグリーン */
+    --gray:    #6B7280;   /* テキストグレー */
+    --light:   #F0FDF8;   /* 背景：クリーム寄りの薄緑 */
+    --dark:    #064E3B;   /* 見出し：深いグリーン */
+  }
+
+  .reveal {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', sans-serif;
+  }
+
+  /* ── section リセット ── */
+  .reveal .slides section {
+    padding: 0 !important;
+    text-align: left !important;
+    top: 0 !important;
+    height: 100% !important;
+  }
+
+  /* ════════════════
+     共通インナーラッパー
+  ════════════════ */
+  .reveal .slide-inner {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
+
+  /* ── 左写真・右テキスト ── */
+  .reveal .slide-inner.lr { flex-direction: row; }
+  .reveal .slide-inner.rl { flex-direction: row-reverse; }
+
+  .reveal .slide-inner.lr .s-photo,
+  .reveal .slide-inner.rl .s-photo {
+    width: 52%;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .reveal .slide-inner.lr .s-photo img,
+  .reveal .slide-inner.rl .s-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .reveal .slide-inner.lr .s-body,
+  .reveal .slide-inner.rl .s-body {
+    width: 48%;
+    padding: 60px 52px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  /* ── フル写真 ── */
+  .reveal .slide-inner.full {
+    position: absolute;
+    inset: 0;
+  }
+  .reveal .slide-inner.full .s-photo {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .reveal .slide-inner.full .s-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .reveal .slide-inner.full .s-body {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 32px 64px 52px;
+    background: linear-gradient(to top, rgba(240,253,248,0.97) 60%, transparent);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── タイトル ── */
+  .reveal .slide-inner.title-slide {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--light);
+    text-align: center;
+  }
+  .reveal .slide-inner.title-slide::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--blue), var(--amber));
+  }
+
+  /* ── Q&A ── */
+  .reveal .slide-inner.qa-slide {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--blue);
+    text-align: center;
+  }
+
+  /* ════════════════
+     テキスト要素
+  ════════════════ */
+
+  /* タイトルスライド */
+  .reveal .slide-inner.title-slide .t-company {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    color: var(--gray);
+    margin-bottom: 32px;
+  }
+  .reveal .slide-inner.title-slide h1 {
+    font-size: 2.8rem !important;
+    font-weight: 900 !important;
+    line-height: 1.35 !important;
+    color: var(--dark) !important;
+    margin-bottom: 24px !important;
+    text-shadow: none !important;
+    letter-spacing: -0.01em;
+  }
+  .reveal .slide-inner.title-slide h1 em {
+    font-style: normal;
+    color: var(--blue);
+  }
+  .reveal .slide-inner.title-slide .t-tagline {
+    font-size: 0.95rem;
+    color: var(--gray);
+    letter-spacing: 0.06em;
+  }
+
+  /* セクションラベル */
+  .reveal .s-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.62rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.2em !important;
+    text-transform: uppercase !important;
+    color: var(--blue) !important;
+    margin-bottom: 16px !important;
+    text-shadow: none !important;
+  }
+  .reveal .s-label::before {
+    content: '';
+    display: block;
+    width: 20px; height: 2px;
+    background: var(--blue);
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+
+  /* 見出し h2 */
+  .reveal .slides section h2 {
+    font-size: 1.7rem !important;
+    font-weight: 800 !important;
+    line-height: 1.5 !important;
+    color: var(--dark) !important;
+    margin: 0 0 20px !important;
+    letter-spacing: -0.01em !important;
+    text-shadow: none !important;
+    text-transform: none !important;
+  }
+  .reveal .slides section h2 em {
+    font-style: normal !important;
+    color: var(--blue) !important;
+  }
+
+  /* キャプション */
+  .reveal .s-caption {
+    font-size: 0.82rem !important;
+    line-height: 1.95 !important;
+    color: var(--gray) !important;
+    border-left: 3px solid var(--blue-lt) !important;
+    padding-left: 16px !important;
+    margin: 0 !important;
+    text-shadow: none !important;
+  }
+
+  /* Q&A テキスト */
+  .reveal .slide-inner.qa-slide .qa-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 24px;
+  }
+  .reveal .slide-inner.qa-slide h2 {
+    font-size: 1.9rem !important;
+    font-weight: 900 !important;
+    color: #fff !important;
+    line-height: 1.55 !important;
+    margin: 0 0 20px !important;
+    text-shadow: none !important;
+  }
+  .reveal .slide-inner.qa-slide .qa-sub {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.08em;
+  }
+
+  /* ════════════════
+     プレースホルダー
+  ════════════════ */
+  .reveal .s-placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: var(--light);
+  }
+  .reveal .s-placeholder svg {
+    width: 48px; height: 48px;
+    color: #6EE7B7;
+  }
+  .reveal .s-placeholder span {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: #34D399;
+  }
+
+  /* ════════════════
+     Reveal UI
+  ════════════════ */
+  .reveal .progress { color: var(--blue); height: 3px; }
+  .reveal .slide-number {
+    font-size: 0.62rem;
+    color: var(--gray);
+    background: transparent;
+    right: 16px; bottom: 16px;
+  }
+</style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ① タイトル -->
+    <section>
+      <div class="slide-inner title-slide">
+        <p class="t-company">株式会社〇〇　採用説明会</p>
+        <h1>あなたの手が、<br><em>世界をつなぐ。</em></h1>
+        <p class="t-tagline">スマホも、車も、ゲーム機も——私たちのコネクタでつながっている。</p>
+      </div>
+    </section>
+
+    <!-- ② 会社紹介 -->
+    <section>
+      <div class="slide-inner lr">
+        <div class="s-photo">
+          <!-- <img src="photos/company.jpg" alt="会社外観"> -->
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>会社外観 / 工場写真</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Company</p>
+          <h2>スマホも、車も、ゲーム機も——<em>私たちが作っている。</em></h2>
+          <p class="s-caption">コネクタ部品の製造から金型製作・プレス加工まで、社内一貫生産。あなたの身の回りの機器に、私たちの技術が使われています。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 業界紹介 -->
+    <section>
+      <div class="slide-inner rl">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>スマホ・車・ゲーム機などイメージ</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Industry</p>
+          <h2>電子部品は、<em>生活に欠かせない<br>インフラです。</em></h2>
+          <p class="s-caption">私たちが製造するコネクタ部品は、身近なあらゆるデバイスの中で使われています。需要が安定しているため、長く安心して働ける業界です。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ 仕事内容（機械操作） -->
+    <section>
+      <div class="slide-inner lr">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>プレス機・製造ライン</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Work — 01</p>
+          <h2>機械をセットして、製品をつくる。<br><em>それがこの仕事の基本です。</em></h2>
+          <p class="s-caption">精密プレス機に材料をセットし製品を製造します。機械の知識はゼロからでも大丈夫。先輩が手順書を使って一つひとつ丁寧に教えます。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤ 仕事内容（検査） -->
+    <section>
+      <div class="slide-inner full">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>検査・測定作業の様子</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Work — 02</p>
+          <h2>寸法を測り、キズを見つける。<br><em>品質を守る目も、大切なスキルです。</em></h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑥ 仕事内容（成長） -->
+    <section>
+      <div class="slide-inner rl">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>先輩が指導している場面</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Work — 03</p>
+          <h2>知識ゼロでも大丈夫。<br><em>先輩が一つひとつ丁寧に教えます。</em></h2>
+          <p class="s-caption">経験を積むうちに、品質を見るポイントが自然とわかるようになります。続けるほど、できることが増える仕事です。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑦ 一日の流れ（朝） -->
+    <section>
+      <div class="slide-inner lr">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>朝礼・スタートの様子</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">A Day — 朝</p>
+          <h2>1日は朝礼から始まります。<br><em>今日の作業を確認して、さあスタート。</em></h2>
+          <p class="s-caption">8:00 出社・朝礼 → 8:15 機械セット・製造開始。今日の段取りをチームで共有してから作業に入ります。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑧ 一日の流れ（昼） -->
+    <section>
+      <div class="slide-inner full">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>昼休憩・休憩室の様子</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">A Day — 昼</p>
+          <h2>お昼は1時間。<em>仲間とゆっくり過ごせます。</em></h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑨ 一日の流れ（夕） -->
+    <section>
+      <div class="slide-inner rl">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>退社・片付けの様子</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">A Day — 夕</p>
+          <h2>17時には片付けて退社。<br><em>メリハリのある1日です。</em></h2>
+          <p class="s-caption">残業はほぼありません。繁忙期でも月5〜10時間程度。仕事とプライベートをしっかり分けられます。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑩ 社内の雰囲気（チーム） -->
+    <section>
+      <div class="slide-inner lr">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>チーム・職場の全体像</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Culture — 01</p>
+          <h2>全員26名。<br><em>顔と名前がすぐ覚えられる、<br>ちょうどいい規模感。</em></h2>
+          <p class="s-caption">少人数だからこそ、困ったときにすぐ相談できます。入社後も孤立せず、チームの一員として早く溶け込めます。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑪ 社内の雰囲気（OJT） -->
+    <section>
+      <div class="slide-inner full">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>先輩が後輩に教えている場面</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Culture — 02</p>
+          <h2>先輩が手順書を使って、<em>一つひとつ丁寧に教えます。</em></h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑫ 社内の雰囲気（女性活躍） -->
+    <section>
+      <div class="slide-inner rl">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>女性社員が作業している場面</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Culture — 03</p>
+          <h2>女性社員も現場で活躍中。<br><em>性別関係なく働ける職場です。</em></h2>
+          <p class="s-caption">上下関係なく、誰とでも気軽に話せる風通しの良い社風。新しく入ってきた方もすぐに馴染める環境があります。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑬ 社内の雰囲気（談笑） -->
+    <section>
+      <div class="slide-inner lr">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>休憩中・談笑している場面</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Culture — 04</p>
+          <h2>上下関係なく、誰とでも話せる。<br><em>それが私たちの社風です。</em></h2>
+          <p class="s-caption">風通しの良さは、外部メディアの取材でも「この会社らしさ」として取り上げられています。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑭ 福利厚生（送迎バス） -->
+    <section>
+      <div class="slide-inner rl">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>送迎バス・最寄り駅周辺</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Benefits — 01</p>
+          <h2>駅から会社まで<em>送迎バスあり。</em><br>通勤の心配は不要です。</h2>
+          <p class="s-caption">定時出退勤に限り、最寄り駅から会社まで送迎バスを利用できます。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑮ 福利厚生（休日） -->
+    <section>
+      <div class="slide-inner lr">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>カレンダー・休日イメージ</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Benefits — 02</p>
+          <h2>年間休日<em>111日。</em><br>有休も取りやすい環境が<br>整っています。</h2>
+          <p class="s-caption">月1〜2回の土曜日勤務には一斉有給を充当。注文増加時は要相談ですが、有休は取得しやすい雰囲気です。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑯ 福利厚生（賞与） -->
+    <section>
+      <div class="slide-inner full">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>クリスマスケーキ・賞与イメージ</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Benefits — 03</p>
+          <h2>賞与年2回＋クリスマスケーキ。<br><em>細かい気遣いが、この会社らしさです。</em></h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑰ キャリアアップ -->
+    <section>
+      <div class="slide-inner rl">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>熟練社員・リーダー作業の様子</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Career</p>
+          <h2>続けるほど、<em>できることが増える。</em><br>成長が実感できる仕事です。</h2>
+          <p class="s-caption">オペレーターとして熟練を積んだ後、品質管理・多工程担当・リーダー職へとステップアップできます。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑱ 求める人物像 -->
+    <section>
+      <div class="slide-inner full">
+        <div class="s-photo">
+          <div class="s-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>前向きに取り組む社員の様子</span>
+          </div>
+        </div>
+        <div class="s-body">
+          <p class="s-label">Who We're Looking For</p>
+          <h2>「わからない」と言える人が、<br><em>いちばん早く成長できます。</em></h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑲ 質疑応答 -->
+    <section>
+      <div class="slide-inner qa-slide">
+        <p class="qa-label">Q &amp; A</p>
+        <h2>どんな小さなことでも、<br>遠慮なく聞いてください。</h2>
+        <p class="qa-sub">株式会社〇〇　採用担当</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js" crossorigin="anonymous"></script>
+<script>
+  Reveal.initialize({
+    hash: false,
+    slideNumber: 'c/t',
+    progress: true,
+    controls: true,
+    touch: true,
+    transition: 'fade',
+    transitionSpeed: 'default',
+    width: 1280,
+    height: 720,
+    margin: 0,
+    minScale: 0.2,
+    maxScale: 2.0,
+    plugins: []
+  });
+</script>
+</body>
+</html>
