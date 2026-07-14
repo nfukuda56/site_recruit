@@ -58,6 +58,12 @@
   .reveal .slide-inner.qa-slide .qa-label { font-size:var(--fs-qa-label);letter-spacing:.3em;color:rgba(255,255,255,.6);margin-bottom:24px; }
   .reveal .slide-inner.qa-slide h2 { font-size:var(--fs-h2-qa)!important;font-weight:900!important;color:#fff!important;line-height:1.55!important;margin:0 0 20px!important;text-shadow:none!important; }
   .reveal .slide-inner.qa-slide .qa-sub { font-size:var(--fs-qa-sub);color:rgba(255,255,255,.65);letter-spacing:.08em; }
+  .reveal .btn-restart {
+    margin-top:48px;padding:14px 36px;font-size:.95rem;letter-spacing:.12em;
+    color:rgba(255,255,255,.9);background:transparent;border:1.5px solid rgba(255,255,255,.55);
+    border-radius:999px;cursor:pointer;font-family:inherit;transition:background .2s,color .2s,border-color .2s;
+  }
+  .reveal .btn-restart:hover { background:#fff;color:var(--blue);border-color:#fff; }
   .reveal .s-placeholder { width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:var(--light); }
   .reveal .s-placeholder svg { width:48px;height:48px;color:#6EE7B7; }
   .reveal .s-placeholder span { font-size:.68rem;letter-spacing:.08em;color:#34D399; }
@@ -188,6 +194,7 @@
   <p class="qa-label">Q &amp; A</p>
   <h2>どんな小さなことでも、<br>遠慮なく聞いてください。</h2>
   <p class="qa-sub">杉並電機株式会社　採用担当</p>
+  <button class="btn-restart" onclick="Reveal.slide(0)">Return to start page</button>
 </div></section>
 
 </div></div>
